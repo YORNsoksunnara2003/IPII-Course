@@ -44,6 +44,7 @@ class ProductController extends Controller
 
         return response()->json(["message" => "Product Updated!!!"]);
     }
+    
 
     public function deleteProduct($productId) {
         $product = Product::findOrFail($productId);
