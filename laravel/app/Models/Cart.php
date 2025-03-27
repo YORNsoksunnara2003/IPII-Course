@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Cart extends Model
 {
-    use SoftDeletes;
-    // Allow mass assignment
-    protected $fillable = ['name'];
-
+    protected $fillable = ["quantity","customer_id","product_id"];
     public function product(){
         return $this->hasMany(Product::class);
+    }
+    public function customer(){
+        return $this->belongsTo(Customer::class);
     }
 
 }

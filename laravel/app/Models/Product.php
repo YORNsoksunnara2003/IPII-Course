@@ -4,8 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Product extends Model
 {
-    protected $fillable = ["name", "category_id","pricing ","description","image"];
+    use SoftDeletes;
+    // Allow for mass assignment
+    protected $fillable = ['name', 'pricing', 'category_id', 'description', 'image'];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    public function carts(){
+        return $this->hasMany(Cart::class);
+    }
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class);
+    }
+    public function order_product(){
+        return $this->hasMany(OrderProduct::class);
+    }
+
 }
- 
