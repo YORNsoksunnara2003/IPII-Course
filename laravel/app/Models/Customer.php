@@ -14,10 +14,11 @@ class Customer extends Model
     protected $date = ["deleted_at"];
     protected $fillable = ["name","email","address","phone"];
     
+    
     public function carts(){
         return $this->hasMany(Cart::class);
     }
-    public function payment(){
+    public function payments(){
         return $this->hasMany(Payment::class);
     }
     public function wishlists(){

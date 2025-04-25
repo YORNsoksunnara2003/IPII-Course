@@ -11,13 +11,14 @@ class Order extends Model
 {
     use SoftDeletes;
     protected $date = ["deleted_at"];
+    protected $table = 'orders';
     protected $fillable = ["order_date","total_price","customer_id"];
-
+    
     public function payments(){
         return $this->hasMany(Payment::class);
     }
     public function customer(){
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
     public function order_products(){
         return $this->hasMany(OrderProduct::class);

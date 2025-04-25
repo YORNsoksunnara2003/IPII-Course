@@ -11,7 +11,10 @@ class Product extends Model
     use SoftDeletes;
     // Allow for mass assignment
     protected $fillable = ['name', 'pricing', 'category_id', 'description', 'image'];
-
+    protected $casts = [
+        'images' => 'array',
+    ];
+    
     public function category(){
         return $this->belongsTo(Category::class);
     }
@@ -21,8 +24,10 @@ class Product extends Model
     public function wishlists(){
         return $this->hasMany(Wishlist::class);
     }
-    public function order_product(){
+    public function order_products(){
         return $this->hasMany(OrderProduct::class);
     }
+   
+
 
 }

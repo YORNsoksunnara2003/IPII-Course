@@ -15,13 +15,13 @@ class CategoryController extends Controller
     public function createCategory(Request $request)
     {
         $category = Category::create(['name' => $request['name']]);
-        return response()->json(['message'=> $request['name'] . " has been added."]);
+        return response()->json($category, 200);
     }
 
     public function getCategory($categoryId) {
         $category = Category::findOrFail($categoryId);
 
-        return response()->json(['category' => $category]);
+        return response()->json($category, 200);
     }
 
     public function updateCategory($categoryId, Request $request)
@@ -31,7 +31,7 @@ class CategoryController extends Controller
         $category->name = $request['name'];
         $category->save();
 
-        return response()->json(["message" => "Category Updated!!!"]);
+        return response()->json($category, 200);
     }
 
     public function deleteCategory($categoryId) {
@@ -41,5 +41,6 @@ class CategoryController extends Controller
 
         return response()->json(["message" => "Category Deleted!!!"]);
     }
+    
 
 }

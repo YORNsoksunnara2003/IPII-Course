@@ -57,5 +57,17 @@ class ProductController extends Controller
         $products = Product::where("category_id", $categoryId)->get();
 
         return response()->json(["products" => $products]);
+
+        $product = Product::create([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'pricing' => $request->pricing,
+            'description' => $request->description,
+            'images' => $request->images, // Automatically cast to JSONB
+        ]);
+        
+        return $product;
+
     }
+    
 }
