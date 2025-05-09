@@ -45,15 +45,15 @@ class CategoryTest extends TestCase
 
     public function test_update_category_by_id()
     {
-        $category = Category::create(['name' => 'Single Category']);
+        $category = Category::create(['name' => 'Single Category1']);
         $response = $this->patch("/api/categories/{$category->id}", [
-            'name' => 'test_category_updated',
+            'name' => 'test_category_updated2',
         ]);
 
         $response->assertStatus(200)
                  ->assertJson([
                      'id' => $category->id,
-                     'name' => 'test_category_updated',
+                     'name' => 'test_category_updated2',
                  ]);
     }
 
