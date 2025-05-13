@@ -10,9 +10,9 @@
         <p style="color: green">{{ session('success') }}</p>
     @endif
 
-    <form action="{{ route('upload.file') }}" method="POST" enctype="multipart/form-data">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
         @csrf
-        <input type="file" name="file" required>
+        <input type="file" name="document" required>
         <button type="submit">Upload</button>
     </form>
 </body>

@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\UploadController;
 
-Route::get('/upload', [UploadController::class, 'showForm'])->name('upload.form');
-Route::post('/upload', [UploadController::class, 'uploadFile'])->name('upload.file');
+Route::get('/upload_file', function(){
+    return view('upload_file');
+});
+Route::post('/upload', [UploadController::class, 'upload'])->name('upload');

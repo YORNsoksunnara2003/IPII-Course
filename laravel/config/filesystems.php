@@ -46,6 +46,7 @@ return [
             'region' => env('MINIO_REGION', 'us-east-1'),
             'bucket' => env('MINIO_BUCKET'),
             'endpoint' => env('MINIO_ENDPOINT'),
+            'throw' => 'true',
             'use_path_style_endpoint' => true,
         ],
 

@@ -1,25 +1,31 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use App\Http\Controllers\UploadController;
 
 class UploadController extends Controller
 {
-    public function showForm()
-    {
-        return view('upload_file');
-    }
-
-    public function uploadFile(Request $request)
+    public function upload(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|max:10240' // 10MB max
+            'document' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048' // Validation rules for upload
         ]);
+            $image = $request->file('document');
+            $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('uploads', $fileName); 
+            
+            $thumbnailPath = 'thumbnails/' . $fileName;
+            $intervention = Image::make($image->getRealPath());
+            $intervention->fit(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(storage_path('app/public/' . $thumbnailPath));
 
-        $path = $request->file('file')->store('uploads');
+            Storage::put($thumbnailPath, $intervention->stream());
 
-        return back()->with('success', 'File uploaded successfully to ' . $path);
+            return $path;
+            
     }
 }
-
