@@ -11,8 +11,8 @@
         >You have <span class="pending-num"> {{ nbOfTodo }} </span> tasks
         pending.</span
       >
-      <button class="clear-button">Clear All</button>
     </div>
+      <button class="clear-button" @click="clearAllTodos()">Clear All</button>
   </div>
 </template>
 <script>
@@ -51,4 +51,15 @@ export default {
 </script>
 <style>
 @import "https://unicons.iconscout.com/release/v4.0.0/css/line.css";
+
+.clear-button {
+  background-color: blu;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 330px;
+  cursor: pointer;
+}
 </style>
