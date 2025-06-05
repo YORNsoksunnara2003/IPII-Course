@@ -4,40 +4,52 @@ export const useTodoStore = defineStore("todo", {
   state: () => ({
     todos: [],
   }),
-  getters: {
+ getters: {
     countTodos: (state) => state.todos.length,
+    countPending: (state) => state.todos.filter(todo => todo.completedAt == null).length, // count pending only
   },
   actions: {
-    async fetchTodos() {
-  try {
-    const response = await axios.get('http://localhost:3100/tasks');
-    this.todos = response.data; // assuming the API returns an array of todos
-  } catch (error) {
-    console.error('Failed to fetch todos:', error);
-  }
-},
-    toggleStatus(id) {
-      const foundIndex = this.todos.findIndex((t) => t.id == id);
+  async fetchTodos() {
+    try {
+      const response = await axios.get('http://localhost:3100/tasks');
+      this.todos = response.data;
+    } catch (error) {
+      console.error('Failed to fetch todos:', error);
+    }
+  },
+  toggleStatus(id) {
+      const foundIndex = this.todos.findIndex((t) => t.id === id);
       if (foundIndex >= 0) {
-        if (this.todos[foundIndex].completedAt != null) {
-          this.todos[foundIndex].completedAt = null;
-        } else {
-          this.todos[foundIndex].completedAt = new Date().toISOString();
-        }
+        const todo = this.todos[foundIndex];
+        todo.completedAt = todo.completedAt ? null : new Date().toISOString();
       }
     },
-    addTodo(todo) {
-      this.todos.push({
-        id: this.todos.length + 1,
-        name: todo,
+  async addTodo(name) {
+    try {
+      const response = await axios.post('http://localhost:3100/tasks', {
+        name,
         description: "description",
-        createdAt: new Date().toISOString(),
-        completedAt: null,
-      });
-      this.todos = JSON.parse(JSON.stringify(this.todos));
-    },
-    clearAll() {
-      this.todos = [];
-    },
+      }); 
+      this.todos.push(response.data);
+    } catch (error) {
+      console.error("Failed to add todo:", error);
+    }
   },
+async clearAll() {
+  try {
+    const now = new Date().toISOString();
+    const updatePromises = this.todos.map(todo =>
+      axios.patch(`http://localhost:3100/tasks/${todo.id}`, {
+        deletedAt: now
+      })
+    );
+    await Promise.all(updatePromises);
+    this.todos = []; // Remove from frontend store
+  } catch (error) {
+    console.error("Failed to soft delete all todos:", error);
+  }
+}
+
+}
+
 });

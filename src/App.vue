@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     ...mapState(useTodoStore, {
-      nbOfTodo: "countTodos",
+      nbOfTodo: "countPending",
     }),
   },
   methods: {
