@@ -39,7 +39,7 @@ async clearAll() {
   try {
     const now = new Date().toISOString();
     const updatePromises = this.todos.map(todo =>
-      axios.patch(`http://localhost:3100/tasks/${todo.id}`, {
+      axios.delete(`http://localhost:3100/tasks/${todo.id}`, {
         deletedAt: now
       })
     );
